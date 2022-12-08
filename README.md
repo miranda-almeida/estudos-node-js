@@ -53,7 +53,40 @@ preenchimento do arquivo com o seguinte código, seguindo orientações da trybe
 ##### .gitignore
 adiciona pasta `node_modules/`
 
+6) cria os arquivos `app.js` e `server.js` na pasta `src`
+
+##### app.js
+```js
+const express = require('express');
 
 
+const app = express();
 
 
+module.exports = app;
+```
+realiza a importação do pacote do express, inicia o mesmo no aplicativo a partir da função `express()` e atribui ela a variável `app`, realizando assim sua exportação para reutilização em diferentes arquivos como o `server.js`
+
+##### server.js
+```js
+const app = require('./app');
+
+app.listen(3001, () => console.log('server running on port 3001'));
+```
+o `start` da aplicação será provido pelo trecho de código com a função `.listen()`, que recebe dois parâmetros:
+- o port, onde no código é passado 3001 mas pode ser qualquer número não utilizado acima de 1023;
+- uma função, no código acima foi passado apenas um `console.log()` para informar que o servidor está rodando
+
+7) configurações do `package.json` na aba `scripts`
+```json
+"start": "node src/server.js",
+
+"dev": "nodemon src/server.js",
+
+"lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
+```
+- o comando `start` é reconfigurado para a aplicação iniciar pelo server.js, já configurado como servidor inicial;
+- o comando `dev` orienta a dependência de desenvolvedor do nodemon para inicializar também pelo server.js, auxiliando na reinicialização automática da aplicação cada vez que um arquivo for alterado e salvo;
+- o comando lint adiciona os comandos de verificação do eslint
+
+obs: realizar instalação do pacote nodemon através do comando `npm i nodemon@2.0 -D` --a tag -D adiciona o pacote como devDependencies, já que a utilidade do mesmo não é necessário na produção, apenas no desenvolvimento
