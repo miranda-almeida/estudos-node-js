@@ -1,6 +1,7 @@
-# estudos-node-js
-### anotações sobre node.js + API REST express
+## estudos-node-js
+anotações sobre node.js, API REST express e rotas
 
+# servidor node.js
 1) cria pasta com o diretório src para organização de arquivos e abertura da pasta raíz no vscode: 
 
 `mkdir nome-pasta nome-pasta/src && cd nome-pasta && code .`
@@ -53,6 +54,7 @@ preenchimento do arquivo com o seguinte código, seguindo orientações da trybe
 ##### .gitignore
 adiciona pasta `node_modules/`
 
+# framework express
 6) cria os arquivos `app.js` e `server.js` na pasta `src`
 
 ##### app.js
@@ -90,3 +92,28 @@ o `start` da aplicação será provido pelo trecho de código com a função `.l
 - o comando lint adiciona os comandos de verificação do eslint
 
 obs: realizar instalação do pacote nodemon através do comando `npm i nodemon@2.0 -D` --a tag -D adiciona o pacote como devDependencies, já que a utilidade do mesmo não é necessário na produção, apenas no desenvolvimento
+
+# rotas (caminhos, paths, endpoints)
+a anatomia de uma URL consiste em `protocolo`, `domínio` e `rota`:
+```diff
++ https:// | protocolo
++ github.com | domínio
++ /login | rota
+```
+
+8) adiciona a seguinte linha de código no `app.js`:
+
+`app.get('/', (req, res) => res.status(200).json({ message: 'Olá Mundo!' }));`
+
+ao acessar a port pelo navegador através do localhost, é possível visualizar a mensagem
+
+a) função `.get()`: utilizada para pedir algum dado, recebendo dois parâmetros:
+  - '/': rota desejada, nesse caso é a raíz (página inicial)
+  - (req, res) => {}: espera uma função de callback, que pode receber de dois a quatro parâmetros, sendo eles:
+    - req: REQUEST, por meio dela recebemos os dados (envio por query, params e body);
+    - res: RESPONSE, por meio dela respondemos o que nos é solicitado;
+    - next: [add];
+    - err: [add];
+
+b) boas práticas consistem no envio de um `status code`, no caso da função `.status(200)`. os status são importantes para identificação da resposta das requisições. [acessar documentação do MDN sobre status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+
