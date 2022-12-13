@@ -66,4 +66,70 @@ app.use(express.json());
 
 module.exports = app;
 ```
+realiza exportação na constante ```app```, que inicializa o express e registra os middlewares que serão utilizados inicialmente.
+a função ```app.listen()``` será adicionada ao arquivo ```server.js```, para que no momento de realizar testes de integração, as configurações de inicialização, rota e middleware do express estejam separadas da inicialização do express. dessa forma é possível criar um mock das rotas e facilitar o processo de testagem da API.
 
+d) cria o arquivo ```src/server.js```
+##### server.js
+```js
+const app = require('./app');
+const connection = require('./db/connection');
+
+const PORT = 3001;
+
+app.listen(PORT, async () => {
+  console.log(`API TrybeCash está sendo executada na porta ${PORT}`);
+
+  // O código abaixo é para testarmos a comunicação com o MySQL
+  const [ result ] = await connection.execute('SELECT 1');
+  if (result) {
+    console.log('MySQL connection OK');
+  }
+});
+```
+dentro da função `app.listen()` foi adicionado um trecho de código que executa a função `connection.execute()`, que recebe como parâmetro uma consulta do sql: `SELECT 1`.
+a função `connection.execute()` realiza uma conexão com o mysql, executa o sql `SELECT 1` passado como parâmetro e recebe uma resposta que é armazenada na constante `result`.
+depois é verificado com um `if` se o objeto `result` contém alguma coisa e, em caso de positivo, é impresso no console a mensagem `MySQL connection OK`. 
+
+##### código sql trybe missions
+```sql
+DROP DATABASE IF EXISTS trybestrelar;
+
+CREATE DATABASE trybestrelar;
+
+USE trybestrelar;
+
+CREATE TABLE
+    missions (
+        id INT NOT NULL AUTO_INCREMENT,
+        name VARCHAR(90) NOT NULL,
+        year VARCHAR(45) NOT NULL,
+        country VARCHAR(90) NOT NULL,
+        destination VARCHAR(90) NOT NULL,
+        PRIMARY KEY(id)
+    );
+
+INSERT INTO missions 
+    (`id`,`name`,`year`,`country`,`destination`) 
+VALUES 
+    (1,'Mariner 2','1962','Estados Unidos','Vênus'),
+    (2,'Venera 4','1967','URSS','Vênus'),
+    (3,'Mariner 5','1967','Estados Unidos','Vênus'),
+    (4,'Apollo 11','1969','Estados Unidos','Lua'),
+    (5,'Mariner 10','1973','Estados Unidos','Mercúrio e Vênus'),
+    (6,'Voyager 1','1977','Estados Unidos','Espaço interestelar'),
+    (7,'Venera 16','1983','URSS','Vênus'),
+    (8,'Phobos 1','1988','URSS','Marte'),
+    (9,'Phobos 2','1988','URSS','Marte'),
+    (10,'Galileo','1989','Estados Unidos','Júpiter'),
+    (11,'Mars Pathfinder','1996','Estados Unidos','Marte'),
+    (12,'Cassini-Huygens','1997','Estados Unidos e Europa','Saturno'),
+    (13,'Nozomi (Planeta B)','1998','Japão','Marte'),
+    (14,'Estação Internacional Espacial','1998','Estados Unidos e Rússia','Órbita terrestre'),
+    (15,'Mars Polar Lander','1999','Estados Unidos','Marte'),
+    (16,'2001 Mars Odyssey','2001','Estados Unidos','Marte'),
+    (17,'Genesis','2001','Estados Unidos','Terra'),
+    (18,'MESSENGER','2004','Estados Unidos','Mercúrio'),
+    (19,'Telescópio Espacial Kepler','2009','Estados Unidos','Espaço interestelar'),
+    (20,'Telescópio Espacial James Webb','2021','Estados Unidos, União Europeia e Canadá','Espaço interestelar');
+ ```
