@@ -63,7 +63,7 @@ const express = require('express');
 
 const app = express();
 
-app.use(express.json()); // para visualizar interações no thunder client, [add info]
+app.use(express.json()); // para receber o body dentro do objeto require
 
 module.exports = app;
 ```
@@ -152,4 +152,20 @@ POST e PUT são utilizados para enviar dados para o servidor através do corpo d
 visto que a leitura do corpo envolve processos assíncronos, é possível utilizar ferramentas definidas no express para acessar com facilidade esse conteúdo do corpo no código (por exemplo utilizando ```console.log(req.body)```):
 ```js
 app.use(express.text());
+```
+
+##### exemplo de código endpoint
+```js
+const express = require('express);
+const { readMissionsData } = require('./utils/fsUtils');
+
+const app = express();
+
+app.get('/missions', async (request, response) => {
+  const missions = await readMissionsData();
+  
+  return response.status(200).json({ missions });
+}
+
+module.exports = app;
 ```
