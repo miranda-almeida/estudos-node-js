@@ -133,3 +133,7 @@ VALUES
     (19,'Telescópio Espacial Kepler','2009','Estados Unidos','Espaço interestelar'),
     (20,'Telescópio Espacial James Webb','2021','Estados Unidos, União Europeia e Canadá','Espaço interestelar');
  ```
+verifica script do mysql rodando dentro do docker: <br />
+![image](https://user-images.githubusercontent.com/66367744/207420516-3b052370-9144-4340-8dbe-2a6cfea313aa.png) <br />
+![image](https://user-images.githubusercontent.com/66367744/207420772-4745f0d8-0dc8-4e5a-bc72-b7a69420f584.png)
+
