@@ -61,9 +61,9 @@ adiciona pasta `node_modules/`
 ```js
 const express = require('express');
 
-
 const app = express();
 
+app.use(express.json()); // para visualizar interações no thunder client, [add info]
 
 module.exports = app;
 ```
@@ -117,3 +117,39 @@ a) função `.get()`: utilizada para pedir algum dado, recebendo dois parâmetro
 
 b) boas práticas consistem no envio de um `status code`, no caso da função `.status(200)`. os status são importantes para identificação da resposta das requisições. [acessar documentação do MDN sobre status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 
+##### método http
+```GET``` - obtêm/recupera dados <br />
+```POST``` - insere dados <br />
+```PUT``` - atualização completa <br />
+```PATCH``` - atualização parcial <br />
+```DELETE``` - exclui dados <br />
+
+##### famílias de status code
+100 - respostas de informação <br />
+200 - respostas de sucesso <br />
+300 - redirecionamento <br />
+400 - erro do cliente <br />
+500 - erro do servidor <br />
+
+# envio de dados para o servidor (query, params, body)
+##### envio por consulta
+```req.query``` <br />
+o envio de dados por string query é construído através da estrutura ```/rota?variavel=valor&variavel2=valor2```, onde o ```?``` indica que serão passados dados para a rota e nesse caso há duas querys sendo enviadas, onde o ```&``` pode ser utilizado para agregar múltiplas variáveis na linha);
+largamente utilizadas ao enviar dados via GET;
+normalmente é utilizado no contexto de consultas SQL <br />
+
+##### envio por parâmetro
+```req.params``` <br />
+o envio de dados por parâmetros é construído através da estrutura ```/rota/:variavel```, onde o ```/:``` indica que serão passados dados para a rota;
+ao passarmos um valor seguindo a estrutura da rota, ele será armazenado dentro da variável determinada como parâmetro;
+ao adicionar ```/rota/12345```, '12345' será armazenado como valor em ```variavel``` <br />
+
+##### envio por corpo
+```req.body``` <br />
+utiliza o próprio corpo da requisição para enviar os dados de forma encapsulada, sem exibir na URL;
+normalmente no método GET se recebe dados no corpo, não se envia (as solicitações ao servidor são feitas no header);
+POST e PUT são utilizados para enviar dados para o servidor através do corpo da requisição;
+visto que a leitura do corpo envolve processos assíncronos, é possível utilizar ferramentas definidas no express para acessar com facilidade esse conteúdo do corpo no código (por exemplo utilizando ```console.log(req.body)```):
+```js
+app.use(express.text());
+```
